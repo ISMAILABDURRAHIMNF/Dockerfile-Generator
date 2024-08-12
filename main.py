@@ -1,15 +1,19 @@
 from openai import OpenAI
 client = OpenAI()
 
-completion = client.chat.completions.create(
-    model="gpt-4o-mini",
-    messages=[
-        {"role": "system", "content": "You are a helpful dockerfile generator"},
-        {"role": "user", "content": "Create dockerfile content for a python project with flask, use latest technology, create a dockerfile content without any explanation"},
-    ]
-)
+def generate_dockerfile(choice, version):
+    print(f"\n\nGenerating dockerfile for {choice} {version} project...")
+    project_description = f"{choice} project with {version} version"
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful dockerfile generator"},
+            {"role": "user", "content": f"Create dockerfile content for a {project_description}, use latest technology, create a dockerfile content without any explanation"},
+        ]
+    )
 
-print(completion.choices[0].message.content)
+    print(completion.choices[0].message.content)
+    print("\n\n=== Dockerfile generated successfully ===\n\n")
 
 #Main Menu
 menu = {
@@ -48,22 +52,19 @@ def selected_option(*option):
 
 #Sub Menus Function
 def option_1():
-    selected_option('Python')
-    print('=== Select Python version ==')
+    print("=== Select Python Version ===")    
     show_menu(python_version)
     version = int(input('Enter your choice: '))
     return version
 
 def option_2():
-    selected_option('PHP')
-    print('=== Select PHP version ==')
+    print("=== Select PHP Version ===")   
     show_menu(php_version)
     version = int(input('Enter your choice: '))
     return version
 
 def option_3():
-    selected_option('JavaScript')
-    print('=== Select JavaScript framework ==')
+    print("=== Select Javascript Framework ===")   
     show_menu(javascript_framework)
     version = int(input('Enter your choice: '))
     return version
@@ -73,16 +74,20 @@ def main():
     while True:
         print('\n=== Menu ===')
         show_menu()
+        global choice
         choice = int(input('Enter your choice: '))
         if choice == 1:
             version = option_1()
             selected_option("Python", python_version[version])
+            generate_dockerfile("Python", python_version[version])
         elif choice == 2:
             version = option_2()
             selected_option("PHP", php_version[version])
+            generate_dockerfile("PHP", php_version[version])
         elif choice == 3:
             version = option_3()
             selected_option("JavaScript", javascript_framework[version])
+            generate_dockerfile("JavaScript", javascript_framework[version])
         elif choice == 4:
             print('Thanks for using our application')
             break
