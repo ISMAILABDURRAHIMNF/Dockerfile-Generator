@@ -13,5 +13,7 @@ def generate_dockerfile(choice, version):
         ]
     )
 
-    print(completion.choices[0].message.content)
+    dockerfile_content = completion.choices[0].message.content
     print("\n\n=== Dockerfile generated successfully ===\n\n")
+
+    return dockerfile_content
