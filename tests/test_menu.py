@@ -25,20 +25,20 @@ class TestShowMenu(unittest.TestCase):
         
 
 class TestShowMainMenu(unittest.TestCase):
-    expected_choice = {
+    expected_language = {
         1: 'Python',
         2: 'PHP',
         3: 'JavaScript',
         4: 'Exit'
     }
 
-    def test_show_main_menu(self, expected_choice=expected_choice):
-        for i, expected in enumerate(expected_choice, start=1):
+    def test_show_main_menu(self, expected_language=expected_language):
+        for i, expected in enumerate(expected_language, start=1):
             with patch('builtins.input', side_effect=[i]) as mock_input, patch('sys.stdout', new_callable=StringIO) as mock_stdout:
                 result = show_main_menu()
                 output = mock_stdout.getvalue()
                 self.assertEqual(output, '\n=== Menu ===\n1. Python\n2. PHP\n3. JavaScript\n4. Exit\n')
-                mock_input.assert_called_with('Enter your choice: ')
+                mock_input.assert_called_with('Enter your language: ')
                 self.assertEqual(result, expected)
 
 class TestSelectOption(unittest.TestCase):
@@ -95,7 +95,7 @@ class TestSelectOption(unittest.TestCase):
                     result = select_option("Select Python Version")
                     output = mock_stdout.getvalue()
                     self.assertEqual(output, '=== Select Python Version ===\n1. Python 3.8\n2. Python 3.9\n3. Python 3.10\n4. Python 3.11\n5. Python 3.12\n6. Python 3.13\n')
-                    mock_input.assert_called_with('Enter your choice: ')
+                    mock_input.assert_called_with('Enter your language: ')
                     self.assertEqual(result, expected)
 
 if __name__ == '__main__':

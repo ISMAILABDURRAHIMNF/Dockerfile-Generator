@@ -2,9 +2,9 @@ from openai import OpenAI
 
 client = OpenAI()
 
-def generate_dockerfile(choice, version):
-    print(f"\n\nGenerating Dockerfile for {choice} using {version} project...")
-    project_description = f"{choice} project with {version} version"
+def generate_dockerfile(language, version):
+    print(f"\n\nGenerating Dockerfile for {language} using {version} project...")
+    project_description = f"{language} project with {version} version"
     completion = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
