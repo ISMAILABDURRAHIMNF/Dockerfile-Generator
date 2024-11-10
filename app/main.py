@@ -1,13 +1,35 @@
 from flask import Blueprint, request, jsonify
 from .dockerfile_generator import generate_dockerfile
+import os
 
 main = Blueprint('main', __name__)
 
+PATH = 'D:/Mini Project/File_Deploy/'
+
+# def hitung_file():
+#         items = os.listdir(PATH)
+#         jumlah_folder = 0
+#         for item in items:
+#                 path_item = f'{PATH}/{item}'
+#                 if os.path.isdir(path_item):
+#                         jumlah_folder += 1
+#         return jumlah_folder
+
 @main.route('/generate', methods=['POST'])
 def index():
-        language = request.form['language'].lower()
-        version = request.form['version']
+        file = request.files.get('file')
+        language = request.form.get('language').lower()
+        version = request.form.get('version')
+
+        folder_deploy = f'{PATH}/Folder_{file.filename}'
+        os.makedirs(folder_deploy)
+     
         dockerfile_content = generate_dockerfile(language, version)
+
+        # nomor = hitung_file()
+
+        with open(f'{folder_deploy}/Dockerfile', 'w') as file :
+                file.write(dockerfile_content)
 
         return jsonify({'message': 'Generate berhasil!', 'dockerfile': dockerfile_content})
 
