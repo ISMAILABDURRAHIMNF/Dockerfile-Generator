@@ -19,12 +19,13 @@ PATH = 'D:/Mini Project/File_Deploy/'
 def index():
         file = request.files.get('file')
         language = request.form.get('language').lower()
-        version = request.form.get('version')
+        desc = request.form.get('desc')
 
-        folder_deploy = f'{PATH}/Folder_{file.filename}'
+        app_name = file.filename.replace(".zip","")
+        folder_deploy = f'{PATH}/Folder_{app_name}'
         os.makedirs(folder_deploy)
      
-        dockerfile_content = generate_dockerfile(language, version)
+        dockerfile_content = generate_dockerfile(language, desc)
 
         # nomor = hitung_file()
 
@@ -40,7 +41,7 @@ def index():
 #     4: 'Exit'
 # }
 
-# python_version = {
+# python_desc = {
 #     1: 'Python 3.8',
 #     2: 'Python 3.9',
 #     3: 'Python 3.10',
@@ -49,7 +50,7 @@ def index():
 #     6: 'Python 3.13'
 # }
 
-# php_version = {
+# php_desc = {
 #     1: 'PHP 7.0',
 #     2: 'PHP 7.1',
 #     3: 'PHP 7.2',

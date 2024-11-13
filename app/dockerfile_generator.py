@@ -2,18 +2,18 @@ from openai import OpenAI
 
 client = OpenAI()
 
-def generate_dockerfile(language, version):
-    print(f"\n\nGenerating Dockerfile for {language} using {version} project...")
-    project_description = f"{language} project with {version} version"
+def generate_dockerfile(language, desc):
+    print(f"\n\nGenerating Dockerfile for {language} using {desc} project...")
+    project_description = f"{language} project with {desc} desc"
     completion = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "You are a helpful dockerfile generator"},
-            {"role": "user", "content": f"Create Dockerfile content for a {project_description}, use latest technology, create a Dockerfile content without any explanation"},
+            {"role": "user", "content": f"Create the simplest Dockerfile content for a {project_description}, use latest technology, create a Dockerfile content without any explanation"},
         ]
     )
 
-    dockerfile_content = completion.choices[0].message.content
+    dockerfile_content = completion.choices[0].message.content.replace("```","#")
     print("\n\n=== Dockerfile generated successfully ===\n\n")
     print(dockerfile_content)
 
