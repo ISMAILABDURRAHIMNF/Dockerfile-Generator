@@ -1,19 +1,10 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, send_from_directory
 from .dockerfile_generator import generate_dockerfile
 import os
 
 main = Blueprint('main', __name__)
 
-PATH = 'D:/Mini Project/File_Deploy/'
-
-# def hitung_file():
-#         items = os.listdir(PATH)
-#         jumlah_folder = 0
-#         for item in items:
-#                 path_item = f'{PATH}/{item}'
-#                 if os.path.isdir(path_item):
-#                         jumlah_folder += 1
-#         return jumlah_folder
+PATH = os.getenv('DEPLOY_PATH')
 
 @main.route('/generate', methods=['POST'])
 def index():
@@ -22,50 +13,19 @@ def index():
         desc = request.form.get('desc')
 
         app_name = file.filename.replace(".zip","")
-        folder_deploy = f'{PATH}/Folder_{app_name}'
-        os.makedirs(folder_deploy)
+        folder_deploy = f'{PATH}{app_name}'
      
-        dockerfile_content = generate_dockerfile(language, desc)
+        os.makedirs(folder_deploy)
 
-        # nomor = hitung_file()
+        dockerfile_content = generate_dockerfile(language, desc)
 
         with open(f'{folder_deploy}/Dockerfile', 'w') as file :
                 file.write(dockerfile_content)
 
-        return jsonify({'message': 'Generate berhasil!', 'dockerfile': dockerfile_content})
+        return jsonify({'message': 'Generate berhasil!', 'dockerfile': dockerfile_content}), 200
 
-# menu = {
-#     1: 'Python',
-#     2: 'PHP',
-#     3: 'JavaScript',
-#     4: 'Exit'
-# }
+@main.route('/download', methods=['POST'])
+def download():
+        app_name = request.get_json()['app_name']
 
-# python_desc = {
-#     1: 'Python 3.8',
-#     2: 'Python 3.9',
-#     3: 'Python 3.10',
-#     4: 'Python 3.11',
-#     5: 'Python 3.12',
-#     6: 'Python 3.13'
-# }
-
-# php_desc = {
-#     1: 'PHP 7.0',
-#     2: 'PHP 7.1',
-#     3: 'PHP 7.2',
-#     4: 'PHP 7.3',
-#     5: 'PHP 7.4',
-#     6: 'PHP 8.0',
-#     7: 'PHP 8.1',
-#     8: 'PHP 8.2',
-#     9: 'PHP 8.3'
-# }
-
-# javascript_framework = {
-#     1: 'Angular',
-#     2: 'React',
-#     3: 'Vue.js',
-#     4: 'Node.js',
-#     5: 'Next.js',
-# }
+        return send_from_directory(f'{PATH}{app_name}','Dockerfile', as_attachment=True)

@@ -15,7 +15,7 @@ def generate_dockerfile(language, desc):
         model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "You are a helpful dockerfile generator"},
-            {"role": "user", "content": f"Create the simplest Dockerfile content for a {project_description}, use latest technology, create a Dockerfile content without any explanation"},
+            {"role": "user", "content": f"Create the simplest Dockerfile content for a {project_description}, use latest technology, use COPY . syntax, create a Dockerfile content without any explanation"},
         ]
     )
 
