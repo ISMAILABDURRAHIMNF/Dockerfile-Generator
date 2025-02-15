@@ -19,13 +19,15 @@ Install all required modules using `pip install` on the console
 Create the `.env` file in the same directory as `main.py` using this variable.
 
 ```bash
-  OPENAI_API_KEY=PUT_YOUR_OPENAI_API_KEY_HERE
+  OPENAI_API_KEY=
+  SECRET_KEY=
+  DEPLOY_PATH=
 ```
 
-Use the program by running `main.py`
+Use the program by running `run.py`
 
 ```bash
-  OPENAI_API_KEY=PUT_YOUR_OPENAI_API_KEY_HERE
+  python run.py
 ```
 
 ## ❗Warning !
