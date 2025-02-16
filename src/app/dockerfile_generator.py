@@ -1,21 +1,29 @@
+"""Generator Function"""
+
+import os
 from openai import OpenAI
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
+
+gpt_model = os.environ.get("GPT_MODEL")
 
 client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
 def generate_dockerfile(language, desc):
+    """Generating Dockerfile using API"""
+
     print(f"\n\nGenerating Dockerfile for {language} using {desc} project...")
     project_description = f"{language} project with {desc} desc"
     completion = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model=gpt_model,
         messages=[
             {"role": "system", "content": "You are a helpful dockerfile generator"},
-            {"role": "user", "content": f"Create the simplest Dockerfile content for a {project_description}, use latest technology, use COPY . syntax, create a Dockerfile content without any explanation"},
+            {"role": "user", "content": "Create the simplest Dockerfile content for a "\
+             f"{project_description}, use latest technology, use COPY . syntax, "\
+             "create a Dockerfile content without any explanation"},
         ]
     )
 
